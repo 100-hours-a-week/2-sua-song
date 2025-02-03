@@ -1,4 +1,6 @@
 package starbucks.item_order;
+import starbucks.exception.InputValidator;
+
 import java.util.Scanner;
 
 public class Item_Order {
@@ -25,9 +27,7 @@ public class Item_Order {
         for (int i = 0; i < drinkarray.length; i++) {
             System.out.println((i + 1) + "." + drinkarray[i].getName() + " " + drinkarray[i].getPrice());
         }
-
-        System.out.println("\n 음료를 선택하세요(번호 입력) : ");
-        int choice = in.nextInt();
+        int choice = InputValidator.validateMenuChoice(in, drinkarray.length);
         selectedDrink = drinkarray[choice - 1];
         System.out.print("\n선택한 음료 : " + selectedDrink.getName());
 
@@ -42,7 +42,7 @@ public class Item_Order {
         }
 
         System.out.println("\n 디저트를 선택하세요 (번호 입력) : ");
-        int desertChoice = in.nextInt();
+        int desertChoice = InputValidator.validateMenuChoice(in, desertsarray.length);
         selectedDesert = desertsarray[desertChoice - 1];
 
         System.out.println("\n 선택한 디저트 : " + selectedDesert.getName());
