@@ -64,7 +64,13 @@ public class Item_Order {
 
         while (true) {
             try {
-                System.out.println("💰 지불할 금액을 입력하세요: ");
+                System.out.print("💰 지불할 금액을 입력하세요: ");
+
+                // 숫자가 아닌 입력을 방지하기 위해 입력을 문자열로 받고 숫자로 변환
+                if (!in.hasNextInt()) {
+                    throw new IllegalArgumentException("⚠️ [ERROR]: 숫자만 입력해주세요.");
+                }
+
                 paymoney = in.nextInt();
 
                 if (paymoney < totalPrice2) {
@@ -72,10 +78,12 @@ public class Item_Order {
                 }
                 break; // 정상 입력이면 while문 종료
 
-            } catch (IllegalArgumentException e) { // 지불 금액이 부족한 경우 예외 처리
+            } catch (IllegalArgumentException e) { // 숫자 입력 오류 & 금액 부족 예외 처리
                 System.out.println(e.getMessage());
+                in.nextLine(); // 입력 버퍼 초기화
             }
         }
+
         int change = paymoney - totalPrice2;
         System.out.println("✅ 결제 완료! 잔돈: " + change + "원");
     }
