@@ -1,12 +1,7 @@
 package starbucks;
 
-import starbucks.item_order.Desert;
-import starbucks.item_order.Drink;
 import starbucks.item_order.Item_Order;
-import starbucks.membership_info.MemberShipGrade;
-import starbucks.membership_info.Membership;
 import starbucks.membership_info.Order;
-//import starbucks.item_order.Order;
 import java.util.Scanner;
 
 public class Main {
@@ -15,31 +10,25 @@ public class Main {
         System.out.println("🎉 스타벅스에 오신 것을 환영합니다! 🎉");
         System.out.println("==================================================");
 
+        // 음료 및 디저트 주문
         Item_Order.drink_order(in);
-
         System.out.println("\n==================================================\n");
-
         Item_Order.dessert_order(in);
 
-//
-
-        Item_Order.totalPrice();
-
+        // 총 가격 계산
         int totalPrice = Item_Order.totalPrice();
-        //total 가격을 Order 전달하기
-        Order order = new Order(totalPrice);
-        //멤버십 넣기
+
+        // 멤버십 등급 선택 및 적용
         System.out.println("==================================================");
-        order.apply_order(in);
-        //order부분 메서드 가져오기
-        order.printfinalprice();
+        Order order = new Order(totalPrice); // Order 객체 생성
+        order.applyOrder(in); // 멤버십 적용
 
+        // 할인된 최종 결제 금액 확인
+        int finalPrice = order.getFinalPrice();
+
+        // 결제 진행
+        Item_Order.paymoney(in, finalPrice);
+
+        in.close(); // Scanner 닫기
     }
-
-
-
-
-
-
 }
-

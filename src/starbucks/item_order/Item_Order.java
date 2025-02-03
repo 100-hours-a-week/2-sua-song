@@ -1,6 +1,6 @@
 package starbucks.item_order;
 import starbucks.exception.InputValidator;
-
+import starbucks.membership_info.Order;
 import java.util.Scanner;
 
 public class Item_Order {
@@ -11,7 +11,6 @@ public class Item_Order {
 
 
     //생성자
-
     public Item_Order(Drink drink, Desert desert) {
         this.drink = drink;
         this.desert = desert;
@@ -41,7 +40,6 @@ public class Item_Order {
             System.out.println((i + 1) + "." + desertsarray[i].getName() + " " + desertsarray[i].getPrice());
         }
 
-        System.out.println("\n 디저트를 선택하세요 (번호 입력) : ");
         int desertChoice = InputValidator.validateMenuChoice(in, desertsarray.length);
         selectedDesert = desertsarray[desertChoice - 1];
 
@@ -51,12 +49,34 @@ public class Item_Order {
 
     //총 가격 메서드
     public static int totalPrice() {
-        if(selectedDesert == null || selectedDrink == null) {
+        if (selectedDesert == null || selectedDrink == null) {
             System.out.println("음료 또는 디저트가 선택되지 않았습니다.");
             return 0;
         }
         int totalPrice = selectedDesert.getPrice() + selectedDrink.getPrice();
         System.out.println("결제해야하는 총 금액 : " + totalPrice + "원");
         return totalPrice;
+    }
+
+    /// 지불할 금액 입력 및 잔돈 계산
+    public static void paymoney(Scanner in, int totalPrice2) {
+        int paymoney = 0;
+
+        while (true) {
+            try {
+                System.out.println("💰 지불할 금액을 입력하세요: ");
+                paymoney = in.nextInt();
+
+                if (paymoney < totalPrice2) {
+                    throw new IllegalArgumentException("⚠️ [ERROR]: 지불하신 금액이 부족합니다. 돈을 더 넣어주세요.");
+                }
+                break; // 정상 입력이면 while문 종료
+
+            } catch (IllegalArgumentException e) { // 지불 금액이 부족한 경우 예외 처리
+                System.out.println(e.getMessage());
+            }
+        }
+        int change = paymoney - totalPrice2;
+        System.out.println("✅ 결제 완료! 잔돈: " + change + "원");
     }
 }

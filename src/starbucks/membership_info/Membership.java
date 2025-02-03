@@ -13,9 +13,9 @@ public class Membership {
             discountPercent = 30;
         } else {
             System.out.println("할인이 불가능합니다.");
+            return 0;
         }
-
-        return price * discountPercent / 100;
+        return (price * discountPercent) / 100;
     }
 
     // 최종 결제 금액 계산하는 메서드
