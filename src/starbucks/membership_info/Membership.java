@@ -4,7 +4,7 @@ public class Membership {
     public int discount(MemberShipGrade memberShipGrade, int price) {
         int discountPercent = 0;
 
-        // 등급에 따라 할인율 적용
+       //enum으로 변경하기
         if (memberShipGrade == MemberShipGrade.Basic) {
             discountPercent = 10;
         } else if (memberShipGrade == MemberShipGrade.GOLD) {
