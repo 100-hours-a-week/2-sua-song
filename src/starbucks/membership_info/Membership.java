@@ -18,7 +18,7 @@ public class Membership {
         return (price * discountPercent) / 100;
     }
 
-    // 최종 결제 금액 계산하는 메서드
+    //enum에 값을 계산하는 매서드로 옮길 예정
     public int calculateFinalPrice(MemberShipGrade memberShipGrade, int price) {
         int discountAmount = discount(memberShipGrade, price);
         return price - discountAmount;
