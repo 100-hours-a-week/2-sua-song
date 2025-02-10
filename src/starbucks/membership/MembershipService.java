@@ -1,10 +1,21 @@
 package starbucks.membership;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MembershipService {
-    private Grade selectedMembership = null; //맴버십 등급 조정
+    private Grade selectedMembership = null; // 기본값 제거
     private final DiscountPercent discountCalculator;
+
+    // 멤버십 목록을 ArrayList로 해서 나중에 추가하는 것이 쉬울 수 있게 설정
+    private static final List<Grade> membershipList = new ArrayList<>();
+
+    static {
+        membershipList.add(Grade.BASIC);
+        membershipList.add(Grade.GOLD);
+        membershipList.add(Grade.DIAMOND);
+    }
 
     // 생성자를 통해 DiscountPercent 주입
     public MembershipService(DiscountPercent discountCalculator) {
@@ -17,35 +28,26 @@ public class MembershipService {
         String input = scanner.next();
 
         if (input.equalsIgnoreCase("Y")) {
-            //이부분 list에 넣어서 인덱스로 받아오게 해보자.
             System.out.println("📌 멤버십 등급을 선택하세요:");
-            System.out.println("1. BASIC (10% 할인)");
-            System.out.println("2. GOLD (20% 할인)");
-            System.out.println("3. DIAMOND (30% 할인)");
+
+            // ArrayList를 사용해서 두번 일 안하게 만듬, 인덱스 0번부터니 +1 하여 설정
+            for (int i = 0; i < membershipList.size(); i++) {
+                System.out.println((i + 1) + ". " + membershipList.get(i).name() + " (" + membershipList.get(i).getDiscountPercent() + "% 할인)");
+            }
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // 개행 문자 처리
 
-            switch (choice) {
-                case 1:
-                    selectedMembership = Grade.BASIC;
-                    System.out.println("✅ BASIC 멤버십이 적용되었습니다! (10% 할인)");
-                    break;
-                case 2:
-                    selectedMembership = Grade.GOLD;
-                    System.out.println("✅ GOLD 멤버십이 적용되었습니다! (20% 할인)");
-                    break;
-                case 3:
-                    selectedMembership = Grade.DIAMOND;
-                    System.out.println("✅ DIAMOND 멤버십이 적용되었습니다! (30% 할인)");
-                    break;
-                default:
-                    System.out.println("⚠️ 올바른 번호를 입력해주세요. 멤버십이 적용되지 않습니다.");
-                    selectedMembership = null;
+            if (choice >= 1 && choice <= membershipList.size()) {
+                selectedMembership = membershipList.get(choice - 1);
+                System.out.println("✅ " + selectedMembership.name() + " 멤버십이 적용되었습니다! (" + selectedMembership.getDiscountPercent() + "% 할인)");
+            } else {
+                System.out.println("⚠️ 올바른 번호를 입력해주세요. 멤버십이 적용되지 않습니다.");
+                selectedMembership = null;
             }
         } else {
             System.out.println("\n❌ 멤버십이 없습니다. 정가로 결제됩니다.");
-            selectedMembership = null; // 멤버십이 없으면 null 유지
+            selectedMembership = null;
         }
     }
 
