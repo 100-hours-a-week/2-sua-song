@@ -1,88 +1,90 @@
 package starbucks.order;
 
 import starbucks.exception.InputValidator;
-import starbucks.item_order.Desert;
-import starbucks.item_order.Drink;
+import starbucks.item.Dessert;
+import starbucks.item.Drink;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class OrderBook {
-    private Desert desert;
-    private Drink drink;
-    //private final
+    private Drink selectedDrink;  // 선택된 음료
+    private Dessert selectedDessert;  // 선택된 디저트
+    private static final List<Drink> drinkList = Drink.getDrinks();  // 음료 리스트
+    private static final List<Dessert> dessertList = Dessert.getDesserts(); // 디저트 리스트
 
-    //Drink Order 메서드
-    public void drinkorderbook(Scanner scanner) {
-            System.out.println("==================================================");
-            System.out.println("메뉴를 골라주세요");
-            System.out.println("==================================================");
-            System.out.println("📌 음료 메뉴:");
+    // 음료 주문 메서드
+    public void drinkOrder(Scanner scanner) {
+        System.out.println("==================================================");
+        System.out.println("📌 음료 메뉴:");
 
-            int chice =  scanner.nextInt();
-
-            for (int i = 0; i < drinkarray.length; i++) {
-                System.out.println((i + 1) + "." + drinkarray[i].getName() + " " + drinkarray[i].getPrice());
-            }
-            int choice = InputValidator.validateMenuChoice(in, drinkarray.length);
-            selectedDrink = drinkarray[choice - 1];
-            System.out.print("\n선택한 음료 : " + selectedDrink.getName());
-
+        for (int i = 0; i < drinkList.size(); i++) {
+            System.out.println((i + 1) + ". " + drinkList.get(i).name() + " - " + drinkList.get(i).getPrice() + "원");
         }
 
+        System.out.print("\n번호를 선택하세요: ");
+        int choice = InputValidator.validateMenuChoice(scanner, drinkList.size());
+        selectedDrink = drinkList.get(choice - 1);
 
-        public static void dessert_order(Scanner in) {
-            System.out.println("📌 디저트 메뉴 :");
-            Desert[] desertsarray = Desert.DessrtMenu();
-            for (int i = 0; i < desertsarray.length; i++) {
-                System.out.println((i + 1) + "." + desertsarray[i].getName() + " " + desertsarray[i].getPrice());
-            }
-
-            int desertChoice = InputValidator.validateMenuChoice(in, desertsarray.length);
-            selectedDesert = desertsarray[desertChoice - 1];
-
-            System.out.println("\n 선택한 디저트 : " + selectedDesert.getName());
-            System.out.println("\n==================================================\n");
-        }
-
-        //총 가격 메서드
-        public static int totalPrice() {
-            if (selectedDesert == null || selectedDrink == null) {
-                System.out.println("음료 또는 디저트가 선택되지 않았습니다.");
-                return 0;
-            }
-            int totalPrice = selectedDesert.getPrice() + selectedDrink.getPrice();
-            System.out.println("결제해야하는 총 금액 : " + totalPrice + "원");
-            return totalPrice;
-        }
-
-        /// 지불할 금액 입력 및 잔돈 계산
-        public static void paymoney(Scanner in, int totalPrice2) {
-            int paymoney = 0;
-
-            while (true) {
-                try {
-                    System.out.print("💰 지불할 금액을 입력하세요: ");
-
-                    // 숫자가 아닌 입력을 방지하기 위해 입력을 문자열로 받고 숫자로 변환
-                    if (!in.hasNextInt()) {
-                        throw new IllegalArgumentException("⚠️ [ERROR]: 숫자만 입력해주세요.");
-                    }
-
-                    paymoney = in.nextInt();
-
-                    if (paymoney < totalPrice2) {
-                        throw new IllegalArgumentException("⚠️ [ERROR]: 지불하신 금액이 부족합니다. 돈을 더 넣어주세요.");
-                    }
-                    break; // 정상 입력이면 while문 종료
-
-                } catch (IllegalArgumentException e) { // 숫자 입력 오류 & 금액 부족 예외 처리
-                    System.out.println(e.getMessage());
-                    in.nextLine(); // 입력 버퍼 초기화
-                }
-            }
-
-            int change = paymoney - totalPrice2;
-            System.out.println("✅ 결제 완료! 잔돈: " + change + "원");
-        }
+        System.out.println("✅ 선택한 음료: " + selectedDrink.name());
     }
 
+    // 디저트 주문 메서드
+    public void dessertOrder(Scanner scanner) {
+        System.out.println("==================================================");
+        System.out.println("📌 디저트 메뉴:");
+
+        for (int i = 0; i < dessertList.size(); i++) {
+            System.out.println((i + 1) + ". " + dessertList.get(i).name() + " - " + dessertList.get(i).getPrice() + "원");
+        }
+
+        System.out.print("\n번호를 선택하세요: ");
+        int choice = InputValidator.validateMenuChoice(scanner, dessertList.size());
+        selectedDessert = dessertList.get(choice - 1);
+
+        System.out.println("✅ 선택한 디저트: " + selectedDessert.name());
+    }
+
+    // 총 가격 계산
+    public int totalPrice() {
+        if (selectedDrink == null || selectedDessert == null) {
+            System.out.println("⚠️ [ERROR]: 음료 또는 디저트가 선택되지 않았습니다.");
+            return 0;
+        }
+
+        int totalPrice = selectedDrink.getPrice() + selectedDessert.getPrice();
+        System.out.println("\n💰 총 결제 금액: " + totalPrice + "원");
+        return totalPrice;
+    }
+
+    // 결제 및 잔돈 계산
+    public void payMoney(Scanner scanner, int totalPrice) {
+        int payAmount = 0;
+
+        while (true) {
+            try {
+                System.out.print("\n💵 지불할 금액을 입력하세요: ");
+
+                if (!scanner.hasNextInt()) {
+                    throw new IllegalArgumentException("⚠️ [ERROR]: 숫자만 입력해주세요.");
+                }
+
+                payAmount = scanner.nextInt();
+                scanner.nextLine(); // 개행 문자 처리
+
+                if (payAmount < totalPrice) {
+                    throw new IllegalArgumentException("⚠️ [ERROR]: 지불 금액이 부족합니다. 더 넣어주세요.");
+                }
+                break; // 정상 입력 시 반복 종료
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                scanner.nextLine(); // 입력 버퍼 초기화
+            }
+        }
+
+        int change = payAmount - totalPrice;
+        System.out.println("✅ 결제 완료! 잔돈: " + change + "원");
+    }
 }
