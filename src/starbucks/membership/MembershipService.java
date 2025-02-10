@@ -1,21 +1,12 @@
 package starbucks.membership;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class MembershipService {
     private Grade selectedMembership = null; // 기본값 제거
     private final DiscountPercent discountCalculator;
-
-    // 멤버십 목록을 ArrayList로 해서 나중에 추가하는 것이 쉬울 수 있게 설정
-    private static final List<Grade> membershipList = new ArrayList<>();
-
-    static {
-        membershipList.add(Grade.BASIC);
-        membershipList.add(Grade.GOLD);
-        membershipList.add(Grade.DIAMOND);
-    }
+    private static final List<Grade> gradeList = Grade.getMembership(); // 멤버십 리스트
 
     // 생성자를 통해 DiscountPercent 주입
     public MembershipService(DiscountPercent discountCalculator) {
@@ -30,16 +21,18 @@ public class MembershipService {
         if (input.equalsIgnoreCase("Y")) {
             System.out.println("📌 멤버십 등급을 선택하세요:");
 
-            // ArrayList를 사용해서 두번 일 안하게 만듬, 인덱스 0번부터니 +1 하여 설정
-            for (int i = 0; i < membershipList.size(); i++) {
-                System.out.println((i + 1) + ". " + membershipList.get(i).name() + " (" + membershipList.get(i).getDiscountPercent() + "% 할인)");
+            // 멤버십 리스트 출력
+            for (int i = 0; i < gradeList.size(); i++) {
+                System.out.println((i + 1) + ". " + gradeList.get(i).name() + " (" + gradeList.get(i).getDiscountPercent() + "% 할인)");
             }
 
+            // 사용자 입력 받기
+            System.out.print("번호를 입력하세요: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // 개행 문자 처리
 
-            if (choice >= 1 && choice <= membershipList.size()) {
-                selectedMembership = membershipList.get(choice - 1);
+            if (choice >= 1 && choice <= gradeList.size()) {
+                selectedMembership = gradeList.get(choice - 1);
                 System.out.println("✅ " + selectedMembership.name() + " 멤버십이 적용되었습니다! (" + selectedMembership.getDiscountPercent() + "% 할인)");
             } else {
                 System.out.println("⚠️ 올바른 번호를 입력해주세요. 멤버십이 적용되지 않습니다.");
