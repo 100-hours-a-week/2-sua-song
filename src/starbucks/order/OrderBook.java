@@ -1,5 +1,5 @@
 package starbucks.order;
 
-public class order {
+public class OrderBook {
 
 }
