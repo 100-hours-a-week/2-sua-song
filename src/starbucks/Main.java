@@ -1,30 +1,37 @@
 package starbucks;
 
-import starbucks.item_order.Item_Order;
-import starbucks.membership.Grade;
+import starbucks.order.OrderBook;
+import starbucks.membership.MembershipService;
+import starbucks.membership.DiscountPercent;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.println("🎉 스타벅스에 오신 것을 환영합니다! 🎉");
-        System.out.println("==================================================");
+        Scanner scanner = new Scanner(System.in);
+        DiscountPercent discountCalculator = new DiscountPercent(); // 할인 계산기 객체 생성
+        MembershipService membershipService = new MembershipService(discountCalculator);
+        OrderBook orderBook = new OrderBook(); // 주문 관리 객체 생성
 
-        // 음료 및 디저트 주문
-        Item_Order.drink_order(in);
-        System.out.println("\n==================================================\n");
-        Item_Order.dessert_order(in);
+        System.out.println("\n🌟 스타벅스 키오스크에 오신 것을 환영합니다! 🌟");
 
-        // 총 가격 계산
-        int totalPrice = Item_Order.totalPrice();
+        // 멤버십 선택
+        membershipService.applyOrder(scanner);
 
-        // 멤버십 등급 선택 및 적용
-        System.out.println("==================================================");
-        Grade[] grades = Grade.values();
-        private static void finalcount(int totalPrice) {
-            System.out.println("등급의 할인 금액 " + Grade discount, int );
+        // 음료 & 디저트 주문
+        orderBook.drinkOrder(scanner);
+        orderBook.dessertOrder(scanner);
 
+        // 최종 결제 금액 계산 (멤버십 할인 적용)
+        int totalPrice = orderBook.totalPrice();
+        int discountedPrice = membershipService.getFinalPrice(totalPrice);
+
+        // 결제 수행
+        if (discountedPrice > 0) {
+            orderBook.payMoney(scanner, discountedPrice);
         }
 
+        System.out.println("\n☕ 감사합니다! 좋은 하루 보내세요! ☕");
+        scanner.close();
     }
 }

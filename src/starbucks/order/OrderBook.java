@@ -71,7 +71,7 @@ public class OrderBook {
                 }
 
                 payAmount = scanner.nextInt();
-                scanner.nextLine(); // 개행 문자 처리
+                scanner.nextLine();
 
                 if (payAmount < totalPrice) {
                     throw new IllegalArgumentException("⚠️ [ERROR]: 지불 금액이 부족합니다. 더 넣어주세요.");
