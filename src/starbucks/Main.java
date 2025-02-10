@@ -1,7 +1,7 @@
 package starbucks;
 
 import starbucks.item_order.Item_Order;
-import starbucks.membership_info.Order;
+import starbucks.membership.Grade;
 import java.util.Scanner;
 
 public class Main {
@@ -20,15 +20,11 @@ public class Main {
 
         // 멤버십 등급 선택 및 적용
         System.out.println("==================================================");
-        Order order = new Order(totalPrice); // Order 객체 생성
-        order.applyOrder(in); // 멤버십 적용
+        Grade[] grades = Grade.values();
+        private static void finalcount(int totalPrice) {
+            System.out.println("등급의 할인 금액 " + Grade discount, int );
 
-        // 할인된 최종 결제 금액 확인
-        int finalPrice = order.getFinalPrice();
+        }
 
-        // 결제 진행
-        Item_Order.paymoney(in, finalPrice);
-
-        in.close(); // Scanner 닫기
     }
 }

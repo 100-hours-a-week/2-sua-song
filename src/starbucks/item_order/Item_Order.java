@@ -1,6 +1,5 @@
 package starbucks.item_order;
 import starbucks.exception.InputValidator;
-import starbucks.membership_info.Order;
 import java.util.Scanner;
 
 public class Item_Order {
