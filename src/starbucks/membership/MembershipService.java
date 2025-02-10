@@ -17,6 +17,7 @@ public class MembershipService {
         String input = scanner.next();
 
         if (input.equalsIgnoreCase("Y")) {
+            //이부분 list에 넣어서 인덱스로 받아오게 해보자.
             System.out.println("📌 멤버십 등급을 선택하세요:");
             System.out.println("1. BASIC (10% 할인)");
             System.out.println("2. GOLD (20% 할인)");
