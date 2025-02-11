@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum Drink {
-    아메리카노(4500, 3000), 카페라떼(5000, 4000), 카푸치노(5500 , 6000), 자몽허니블랙티(6800, 8000);
+    아메리카노(4500, 8), 카페라떼(5000, 9), 카푸치노(5500 , 10), 자몽허니블랙티(6800, 80);
 
     private final int price;
     private final int waittime;
@@ -18,7 +18,7 @@ public enum Drink {
         return price;
     }
     public int getWaitTime() {
-        return waittime;
+        return waittime * 1000;
     }
         public static ArrayList<Drink> getDrinks() {
         return new ArrayList<>(Arrays.asList(Drink.values()));

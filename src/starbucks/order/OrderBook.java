@@ -22,10 +22,10 @@ public class OrderBook {
     public void drinkOrder(Scanner scanner) {
         System.out.println("📌 음료 메뉴:");
         for (int i = 0; i < drinkList.size(); i++) {
-            System.out.println((i + 1) + ". " + drinkList.get(i).name() + " - " + drinkList.get(i).getPrice() + "원");
+            System.out.println((i + 1) + ". " + drinkList.get(i).name() + " - " + drinkList.get(i).getPrice() + "원" + "   음료나오는데 소요시간 :" + drinkList.get(i).getWaitTime()/1000 + "초");
         }
 
-        System.out.print("\n번호를 선택하세요: ");
+        System.out.print("\n주문할 음료 번호를 선택하세요: ");
         int choice = scanner.nextInt();
         selectedDrink = drinkList.get(choice - 1);
 
