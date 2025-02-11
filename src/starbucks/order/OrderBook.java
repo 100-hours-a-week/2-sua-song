@@ -49,6 +49,7 @@ public class OrderBook {
         selectedDessert = dessertList.get(choice - 1);
 
         System.out.println("✅ 선택한 디저트: " + selectedDessert.name());
+        return new ordermenu(selectedDessert);
     }
 
     // 총 가격 계산
@@ -92,4 +93,9 @@ public class OrderBook {
         int change = payAmount - totalPrice;
         System.out.println("✅ 결제 완료! 잔돈: " + change + "원");
     }
+
+    public void ordermenu(selectedDrink) {
+
+    }
 }
+
