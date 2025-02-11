@@ -31,6 +31,9 @@ public class Main {
             orderBook.payMoney(scanner, discountedPrice);
         }
 
+        //비동기적으로 실행하는 부분
+        System.out.println("손님들이 주문을 했습니다.");
+        일
         System.out.println("\n☕ 감사합니다! 좋은 하루 보내세요! ☕");
         scanner.close();
     }

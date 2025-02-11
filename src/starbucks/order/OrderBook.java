@@ -7,8 +7,13 @@ import starbucks.item.Drink;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class OrderBook {
+    //주문하는 큐 추가
+    private final BlockingDeque<String> orderQueue = new LinkedBlockingDeque<>();
+
     private Drink selectedDrink;  // 선택된 음료
     private Dessert selectedDessert;  // 선택된 디저트
     private static final List<Drink> drinkList = Drink.getDrinks();  // 음료 리스트
