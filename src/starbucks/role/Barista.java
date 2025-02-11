@@ -1,32 +1,33 @@
-package starbucks.role;
+package starbucks.barista;
 
+import starbucks.order.Order;
+import starbucks.order.OrderBook;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-import java.util.Random;
-import java.util.concurrent.BlockingQueue;
+public class Barista implements Runnable {
+    private final OrderBook orderBook;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-public class Barista implements Runnable{
-    //큐로 주문받기
-    private BlockingQueue<String> orderqueue;
-
-    public Barista(BlockingQueue<String> orderqueue, String order) {
-        this.orderqueue = orderqueue;
+    public Barista(OrderBook orderBook) {
+        this.orderBook = orderBook;
     }
 
     @Override
     public void run() {
-        try {
-            while (true) {
-                String order = orderqueue.poll();
-                System.out.println(order + "제조 시작");
-                Thread.sleep(1000);//커피 제조 시간
-                if (Math.random() > 0.6) {
-                    System.out.println(order + "커피 제조 완료 !");
-                } else {
-                    System.out.println(order + "커피 제조 실패했습니다!");
-                }
+        while (true) {
+            try {
+                Order order = orderBook.getOrderQueue().take(); // 주문 가져오기
+                System.out.println("👨‍🍳 바리스타: " + order.getItemName() + " 제조 시작!");
+
+                scheduler.schedule(() -> {
+                    System.out.println("☕ 바리스타: " + order.getItemName() + " 제조 완료!");
+                }, order.getWaitTime(), TimeUnit.MILLISECONDS);
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }

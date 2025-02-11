@@ -17,8 +17,10 @@ public enum Drink {
     public int getPrice() {
         return price;
     }
-
-    public static ArrayList<Drink> getDrinks() {
+    public int getWaitTime() {
+        return waittime;
+    }
+        public static ArrayList<Drink> getDrinks() {
         return new ArrayList<>(Arrays.asList(Drink.values()));
     }
 

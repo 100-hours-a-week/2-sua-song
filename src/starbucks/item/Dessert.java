@@ -18,8 +18,8 @@ public enum Dessert {
     }
 
     //list를 이용해서 작성한 아이템들을 자동으로 메서드에 넣어버리기
-
     public static List<Dessert> getDesserts() {
         return new ArrayList<Dessert>(Arrays.asList(values()));
     }
+
 }

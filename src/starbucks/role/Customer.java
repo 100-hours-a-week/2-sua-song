@@ -1,25 +1,21 @@
-package starbucks.role;
-import java.util.concurrent.BlockingQueue;
+package starbucks.client;
 
-public class Customer implements Runnable{
-    private String Order order;
-    private BlockingQueue<String> orderqueue;
+import starbucks.order.Order;
+import starbucks.order.OrderBook;
 
-    public Customer(String order, BlockingQueue<String> orderqueue) {
-        this.order = order;
-        this.orderqueue = orderqueue;
+public class Customer implements Runnable {
+    private final OrderBook orderBook;
+
+    public Customer(OrderBook orderBook) {
+        this.orderBook = orderBook;
     }
 
     @Override
     public void run() {
-    try {
-        System.out.println("손님" + order + "주세요");
-        orderqueue.put(order);  //큐안에 주문 넣기
-        System.out.println("손님 : 주문완료");
-    }  catch (InterruptedException e) {
-        System.out.println("customer 작업이 중단되었습니다");
-        e.printStackTrace();
-    }
-
+        Order order = orderBook.createOrder(); // 선택된 음료 & 디저트로 주문 생성
+        if (order != null) {
+            System.out.println("👨‍💼 손님: " + order.getItemName() + " 하나 주세요!");
+            orderBook.addOrderAsync(order); // 주문 큐에 추가
+        }
     }
 }
