@@ -45,7 +45,7 @@ public class OrderBook {
         System.out.println("✅ 선택한 디저트: " + selectedDessert.name());
     }
 
-    public Order createOrder() {  // ✅ `createOrder()` 추가
+    public Order createOrder() {
         if (selectedDrink == null || selectedDessert == null) {
             System.out.println("⚠️ 주문이 완성되지 않았습니다. 다시 시도하세요.");
             return null;
@@ -93,24 +93,13 @@ public class OrderBook {
         System.out.println("✅ 결제 완료! 잔돈: " + change + "원");
     }
 
-    public void addOrderToQueue() {
-        Order order = createOrder();
-        if (order == null) {
-            return;
-        }
-        try {
-            orderQueue.put(order);
-            System.out.println("📦 주문 추가: " + order.getItemName());
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
 
-    public void addOrderAsync(Order order) {
+    public void addOrderAsync() {
+        Order order = createOrder();  //order생성해서 넣는 용도
         new Thread(() -> {
             try {
                 orderQueue.put(order);
-                System.out.println("📦 주문 추가: " + order.getItemName());
+                System.out.println("\n 📦 주문 추가: " + order.getItemName());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

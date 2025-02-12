@@ -1,8 +1,6 @@
 package starbucks;
 
 import starbucks.order.OrderBook;
-import starbucks.order.Order;
-import starbucks.client.Customer;
 import starbucks.barista.Barista;
 import starbucks.membership.MembershipService;
 import starbucks.membership.DiscountPercent;
@@ -28,12 +26,11 @@ public class Main {
             int finalPrice = membershipService.getFinalPrice(totalPrice);
             orderBook.payMoney(scanner, finalPrice);
 
-            orderBook.addOrderToQueue(); // 주문을 큐에 추가
-
+            orderBook.addOrderAsync(); // 주문을 큐에 추가
             System.out.print("🚀 추가 주문하시겠습니까? (Y/N): ");
             String response = scanner.next();
             if (response.equalsIgnoreCase("N")) {
-                break;
+                break; //no 하면 루프 종료
             }
         }
 
